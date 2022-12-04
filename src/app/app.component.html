@@ -30,6 +30,33 @@
         >
       </div>
     </div>
+
+
+    <div class="form-group">
+      <label for="">Password</label>
+      <input 
+      [class.is-invalid]="getPassword?.invalid && getPassword?.touched"
+      class="form-control" type="text" placeholder="" formControlName="password">  
+     <div class="text-danger" *ngIf="getPassword?.invalid && getPassword?.touched">
+       Password is required
+     </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Confirm Password</label>
+      <input 
+      [class.is-invalid]="getConfirmPassword?.invalid && getConfirmPassword?.touched"
+      class="form-control" type="text" placeholder="" formControlName="confirmPassword">  
+     <div class="text-danger" *ngIf="getConfirmPassword?.invalid && getConfirmPassword?.touched">
+       Confirm Password doesn't match to password
+     </div>
+    </div>
+
+
+  
+
+
+
     <div>
       <label for="">
         <input
@@ -91,6 +118,23 @@
           </small>
         </div>
       </div>
+
+      <div class="form-group">
+        <label>Github</label>
+        <input
+          formControlName="githubUrl"
+          [class.is-invalid]="githubUrl?.invalid && githubUrl?.touched"
+          type="github"
+          name="github"
+          class="form-control"
+        />
+        <div *ngIf="githubUrl?.invalid && githubUrl?.touched">
+          <small *ngIf="githubUrl!.errors?.['ValidateUrl']" class="text-danger"
+            >Github URl isn't valid</small
+          >
+        </div>
+      </div>
+
     </div>
 
     <div>
@@ -99,33 +143,33 @@
       </button>
     </div>
 
-    <div formArrayName="experience" index>
+    <div formArrayName="experience" >
       <ng-container *ngFor="let object of experiences.controls; let i = index">
         <div [formGroupName]="i" class="form-group">
           <label>{{ i + 1 }}.Company</label>
           <input
             formControlName="company"
-            [class.is-invalid]="this.object.get('company')?.invalid && this.object.get('company')?.touched"
+            [class.is-invalid]="object.get('company')?.invalid && object.get('company')?.touched"
             type="lastname"
             class="form-control"
           />
-          <div *ngIf="this.object.get('company')?.invalid && this.object.get('company')?.touched">
-            <small *ngIf="this.object.get('company')!.errors?.['required']" class="text-danger"
+          <div *ngIf="object.get('company')?.invalid && object.get('company')?.touched">
+            <small *ngIf="object.get('company')!.errors?.['required']" class="text-danger"
               >Company is required</small>
           </div>
 
           <label>Years</label>
           <input
             formControlName="years"
-            [class.is-invalid]="this.object.get('years')?.invalid && this.object.get('years')?.touched"
+            [class.is-invalid]="object.get('years')?.invalid && object.get('years')?.touched"
             type="lastname"
             class="form-control"
           />
-          <div *ngIf="this.object.get('years')?.invalid && this.object.get('years')?.touched">
-            <small *ngIf="this.object.get('years')!.errors?.['required']" class="text-danger"
+          <div *ngIf="object.get('years')?.invalid && object.get('years')?.touched">
+            <small *ngIf="object.get('years')!.errors?.['required']" class="text-danger"
               >Year is required</small
             >
-            <small *ngIf="this.object.get('years')!.errors?.['pattern']" class="text-danger"
+            <small *ngIf="object.get('years')!.errors?.['pattern']" class="text-danger"
               >Year number must be 4 digit</small
             >
           </div>

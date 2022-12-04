@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {  PasswordValidate } from './validators/password.validate';
+import { ValidateUrl } from './validators/url.validator';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +17,14 @@ export class AppComponent implements OnInit {
     return this.form.get('lastname');
   }
 
+  get getPassword(){
+    return this.form.get('password') ;
+  }
+
+  get getConfirmPassword(){
+    return this.form.get('confirmPassword') ;
+  }
+
   get email() {
     return this.form.get('userContactInfo.email');
   }
@@ -25,15 +35,28 @@ export class AppComponent implements OnInit {
   get active() {
     return this.form.get('active');
   }
+  get githubUrl(){
+    return this.form.get('userContactInfo.githubUrl');
+  }
 
   get experiences() {
     return this.form.get('experience') as FormArray;
   }
 
+
+
+
   form: FormGroup = new FormGroup({
     username: new FormControl('', Validators.required),
     lastname: new FormControl('', Validators.required),
+    password: new FormControl('',[
+      Validators.required,
+      Validators.minLength(6),
+      Validators.maxLength(10)
+        ]),
+    confirmPassword: new FormControl(''),
     active: new FormControl('', Validators.required),
+
     userContactInfo: new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       phone: new FormControl('', [
@@ -42,6 +65,7 @@ export class AppComponent implements OnInit {
         Validators.maxLength(15),
         Validators.pattern(/^(\+\d{1,3}[- ]?)?\d{10}$/),
       ]),
+      githubUrl: new FormControl('',ValidateUrl)
     }),
 
     experience: new FormArray([
@@ -50,7 +74,7 @@ export class AppComponent implements OnInit {
         years: new FormControl('',[Validators.required,Validators.pattern('((\\+91-?)|0)?[0-9]{4}$')]),
       }),
     ]),
-  });
+  },{validators: PasswordValidate.passwordMatch});
 
   addExperience() {
     const experience = this.form.get('experience') as FormArray;
